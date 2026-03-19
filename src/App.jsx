@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, LazyMotion, MotionConfig, domAnimation } from 'framer-motion';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Narrative from './components/Narrative';
@@ -10,10 +11,12 @@ import Features from './components/Features';
 import Stats from './components/Stats';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 import './index.css';
 
-function App() {
-  const [isLoading, setIsLoading] = useState(true);
+function HomePage() {
+  const [isLoading, setIsLoading] = useState(() => !sessionStorage.getItem('veda-loaded'));
   const hasResizedRef = useRef(false);
 
   useEffect(() => {
@@ -36,40 +39,55 @@ function App() {
   }, [isLoading]);
 
   return (
-    <LazyMotion features={domAnimation}>
-      <MotionConfig reducedMotion="user" transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}>
-        <div className="app-root">
-          <AnimatePresence mode="wait">
-            {isLoading && (
-              <LoadingScreen 
-                key="loader" 
-                onLoadingComplete={() => setIsLoading(false)} 
-              />
-            )}
-          </AnimatePresence>
+    <div className="app-root">
+      <AnimatePresence mode="wait">
+        {isLoading && (
+          <LoadingScreen 
+            key="loader" 
+            onLoadingComplete={() => {
+              sessionStorage.setItem('veda-loaded', '1');
+              setIsLoading(false);
+            }} 
+          />
+        )}
+      </AnimatePresence>
 
-          <main 
-            className="app-main-content" 
-            style={{ 
-              opacity: isLoading ? 0 : 1, 
-              transition: 'opacity 1s cubic-bezier(0.23, 1, 0.32, 1)',
-              pointerEvents: isLoading ? 'none' : 'auto',
-              position: 'relative'
-            }}
-          >
-            <Navbar />
-            <Hero />
-            <Narrative />
-            <Workers />
-            <HowItWorks />
-            <DesktopMockup />
-            <Features />
-            <Stats />
-            <Footer />
-          </main>
-        </div>
-      </MotionConfig>
-    </LazyMotion>
+      <main 
+        className="app-main-content" 
+        style={{ 
+          opacity: isLoading ? 0 : 1, 
+          transition: 'opacity 1s cubic-bezier(0.23, 1, 0.32, 1)',
+          pointerEvents: isLoading ? 'none' : 'auto',
+          position: 'relative'
+        }}
+      >
+        <Navbar />
+        <Hero />
+        <Narrative />
+        <Workers />
+        <HowItWorks />
+        <DesktopMockup />
+        <Features />
+        <Stats />
+        <Footer />
+      </main>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <LazyMotion features={domAnimation}>
+        <MotionConfig reducedMotion="user" transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+          </Routes>
+        </MotionConfig>
+      </LazyMotion>
+    </BrowserRouter>
   );
 }
 
