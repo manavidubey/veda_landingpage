@@ -1,0 +1,200 @@
+.workers-section {
+  padding: 120px 20px;
+  background-color: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.workers-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.workers-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding: 6px 16px;
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  border-radius: 100px;
+  background: rgba(0, 210, 255, 0.05);
+}
+
+.workers-header h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 16px;
+}
+
+.workers-intro {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.workers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 480px) {
+  .workers-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.worker-card {
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s var(--easing);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.worker-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.worker-card--active {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.worker-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.worker-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.worker-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.worker-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.worker-role {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.worker-specialty {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--worker-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.worker-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.worker-tasks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.worker-task-tag {
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  transition: all 0.3s;
+}
+
+.worker-card:hover .worker-task-tag {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.worker-hire-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: #dff7ff;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--worker-color) 62%, white 20%);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--worker-color) 22%, transparent), rgba(255, 255, 255, 0.06)),
+    rgba(15, 18, 24, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 8px 22px color-mix(in srgb, var(--worker-color) 26%, transparent);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.3s ease;
+}
+
+.worker-card:hover .worker-hire-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.worker-card-glow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60%;
+  background: radial-gradient(ellipse at 50% 100%, var(--worker-color), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.worker-card:hover .worker-card-glow {
+  opacity: 0.08;
+}
+
+.worker-card > *:not(.worker-card-glow) {
+  position: relative;
+  z-index: 1;
+}

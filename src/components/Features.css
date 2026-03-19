@@ -1,0 +1,91 @@
+.features-section {
+  padding: 100px 20px;
+  background-color: var(--bg-primary);
+  position: relative;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-header {
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.features-header h2 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+}
+
+.features-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .features-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.feature-card {
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s var(--easing);
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+}
+
+.feature-number {
+  font-family: 'Outfit', sans-serif;
+  font-size: 6rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.03);
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.feature-title {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 16px;
+  z-index: 2;
+  margin-top: 20px;
+}
+
+.feature-desc {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  z-index: 2;
+  flex-grow: 1;
+}
+
+.card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 120%, rgba(0, 210, 255, 0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.feature-card:hover .card-glow {
+  opacity: 1;
+}

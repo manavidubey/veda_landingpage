@@ -1,0 +1,124 @@
+.stats-section {
+  padding: 80px 20px 0;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.stats-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+@media (max-width: 1080px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-item {
+  text-align: center;
+  padding: 24px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 140px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-value {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .stat-item {
+    min-height: 128px;
+    padding: 18px 10px;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+    max-width: 150px;
+  }
+}
+
+/* ---- Marquee ---- */
+.marquee-wrapper {
+  overflow: hidden;
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  animation: none;
+  width: max-content;
+}
+
+.marquee-item {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  transition: color 0.4s;
+}
+
+.marquee-item:hover {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce), (max-width: 900px) {
+  .marquee-track {
+    animation: none;
+    transform: translateX(0);
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .marquee-wrapper {
+    padding: 24px 12px;
+  }
+
+  .marquee-item {
+    font-size: 1rem;
+  }
+}
