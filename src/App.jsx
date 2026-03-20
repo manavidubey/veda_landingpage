@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, LazyMotion, MotionConfig, domAnimation } from 'framer-motion';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Narrative from './components/Narrative';
@@ -13,7 +13,18 @@ import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
+import EmployeeProfilePage from './pages/EmployeeProfilePage';
 import './index.css';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+
+  return null;
+}
 
 function HomePage() {
   const [isLoading, setIsLoading] = useState(() => !sessionStorage.getItem('veda-loaded'));
@@ -78,12 +89,14 @@ function HomePage() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <LazyMotion features={domAnimation}>
         <MotionConfig reducedMotion="user" transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/employees/:slug" element={<EmployeeProfilePage />} />
           </Routes>
         </MotionConfig>
       </LazyMotion>
