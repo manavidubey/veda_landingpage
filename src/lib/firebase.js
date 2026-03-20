@@ -5,7 +5,7 @@ import { getAnalytics, isSupported as isAnalyticsSupported } from 'firebase/anal
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyBLYlE7NNeNV7-H4mKN7ekZG2GQ54JlZTY',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'veda-b2b38.firebaseapp.com',
+  authDomain: typeof window !== 'undefined' ? window.location.host : (import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'veda-b2b38.firebaseapp.com'),
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'veda-b2b38',
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'veda-b2b38.firebasestorage.app',
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '1001587333922',
