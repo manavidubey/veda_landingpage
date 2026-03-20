@@ -3,9 +3,17 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getAnalytics, isSupported as isAnalyticsSupported } from 'firebase/analytics';
 
+const getAuthDomain = () => {
+  if (typeof window === 'undefined') return import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'veda-b2b38.firebaseapp.com';
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'veda-b2b38.firebaseapp.com';
+  }
+  return window.location.host;
+};
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyBLYlE7NNeNV7-H4mKN7ekZG2GQ54JlZTY',
-  authDomain: typeof window !== 'undefined' ? window.location.host : (import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'veda-b2b38.firebaseapp.com'),
+  authDomain: getAuthDomain(),
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'veda-b2b38',
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'veda-b2b38.firebasestorage.app',
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '1001587333922',
