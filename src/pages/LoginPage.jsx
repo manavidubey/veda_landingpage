@@ -32,7 +32,7 @@ const LoginPage = () => {
       } else {
         localStorage.removeItem('veda-auth-remember');
       }
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       setError(getFirebaseAuthMessage(err.code));
     } finally {
@@ -51,7 +51,7 @@ const LoginPage = () => {
     try {
       setGoogleLoading(true);
       await signInWithPopup(auth, googleProvider);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       if (err?.code === 'auth/popup-closed-by-user') return;
       setError(getFirebaseAuthMessage(err.code));

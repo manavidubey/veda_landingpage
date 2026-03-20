@@ -85,9 +85,14 @@
   align-items: center;
 }
 
+.navbar-profile {
+  position: relative;
+}
+
 .navbar-greeting {
   display: inline-flex;
   align-items: center;
+  gap: 7px;
   justify-content: center;
   min-height: 38px;
   padding: 8px 16px;
@@ -99,6 +104,47 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+  cursor: pointer;
+}
+
+.navbar-greeting svg {
+  opacity: 0.85;
+}
+
+.navbar-profile-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 220px;
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(10, 12, 18, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  z-index: 60;
+}
+
+.navbar-profile-menu a,
+.navbar-profile-menu button {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #dbe5f3;
+  font-size: 0.82rem;
+  line-height: 1.2;
+}
+
+.navbar-profile-menu a:hover,
+.navbar-profile-menu button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f4f8ff;
 }
 
 .navbar-greeting--mobile {
@@ -192,6 +238,16 @@
   gap: 10px;
   width: 100%;
   margin-top: 8px;
+}
+
+.navbar-profile--mobile {
+  width: 100%;
+}
+
+.navbar-profile-menu--mobile {
+  position: static;
+  margin-top: 8px;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

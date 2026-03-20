@@ -42,7 +42,7 @@ const SignupPage = () => {
       if (fullName.trim()) {
         await updateProfile(credential.user, { displayName: fullName.trim() });
       }
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       setError(getFirebaseAuthMessage(err.code));
     } finally {
@@ -61,7 +61,7 @@ const SignupPage = () => {
     try {
       setGoogleLoading(true);
       await signInWithPopup(auth, googleProvider);
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       if (err?.code === 'auth/popup-closed-by-user') return;
       setError(getFirebaseAuthMessage(err.code));

@@ -15,7 +15,7 @@ const EmployeeProfilePage = () => {
         <div className="employee-shell employee-shell--not-found">
           <h1>Profile not found</h1>
           <p>This employee profile is not available right now.</p>
-          <Link className="employee-back-btn" to="/#workers">Back to team</Link>
+          <Link className="employee-back-btn" to="/dashboard">Back to dashboard</Link>
         </div>
       </div>
     );
@@ -32,7 +32,7 @@ const EmployeeProfilePage = () => {
         transition={{ duration: 0.5 }}
       >
         <header className="employee-header">
-          <Link className="employee-back-btn" to="/#workers">Back to team</Link>
+          <Link className="employee-back-btn" to="/dashboard">Back to dashboard</Link>
           <div className="employee-headline">
             <div className="employee-avatar" style={{ '--employee-color': employee.color }}>
               {employee.name[0]}

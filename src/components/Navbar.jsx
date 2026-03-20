@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { onAuthStateChanged } from 'firebase/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import './Navbar.css';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
 
   const getFirstName = (user) => {
     const displayName = user?.displayName?.trim();
@@ -47,6 +50,34 @@ const Navbar = () => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setProfileMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        setProfileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setProfileMenuOpen(false);
+    setMobileOpen(false);
+    navigate('/login');
+  };
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -68,7 +99,36 @@ const Navbar = () => {
         </div>
 
         {firstName ? (
-          <div className="navbar-greeting">Hi, {firstName}</div>
+          <div className="navbar-profile" ref={profileMenuRef}>
+            <button
+              className="navbar-greeting"
+              type="button"
+              onClick={() => setProfileMenuOpen((prev) => !prev)}
+              aria-expanded={profileMenuOpen}
+              aria-haspopup="menu"
+            >
+              Hi, {firstName}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+
+            <AnimatePresence>
+              {profileMenuOpen && (
+                <motion.div
+                  className="navbar-profile-menu"
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Link to="/dashboard#profile" onClick={() => setProfileMenuOpen(false)}>Manage my profile</Link>
+                  <Link to="/dashboard" onClick={() => setProfileMenuOpen(false)}>Dashboard</Link>
+                  <button type="button" onClick={handleLogout}>Log out</button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         ) : (
           <div className="navbar-auth">
             <Link className="navbar-cta navbar-cta--ghost" to="/login">Login</Link>
@@ -94,7 +154,35 @@ const Navbar = () => {
             <a href="#features" onClick={() => setMobileOpen(false)}>Features</a>
             <a href="#showcase" onClick={() => setMobileOpen(false)}>Product</a>
             {firstName ? (
-              <div className="navbar-greeting navbar-greeting--mobile">Hi, {firstName}</div>
+              <div className="navbar-profile navbar-profile--mobile">
+                <button
+                  className="navbar-greeting navbar-greeting--mobile"
+                  type="button"
+                  onClick={() => setProfileMenuOpen((prev) => !prev)}
+                  aria-expanded={profileMenuOpen}
+                  aria-haspopup="menu"
+                >
+                  Hi, {firstName}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <AnimatePresence>
+                  {profileMenuOpen && (
+                    <motion.div
+                      className="navbar-profile-menu navbar-profile-menu--mobile"
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Link to="/dashboard#profile" onClick={() => { setProfileMenuOpen(false); setMobileOpen(false); }}>Manage my profile</Link>
+                      <Link to="/dashboard" onClick={() => { setProfileMenuOpen(false); setMobileOpen(false); }}>Dashboard</Link>
+                      <button type="button" onClick={handleLogout}>Log out</button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ) : (
               <div className="navbar-auth mobile-cta-row">
                 <Link className="navbar-cta navbar-cta--ghost mobile-cta" to="/login">Login</Link>
