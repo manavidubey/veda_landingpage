@@ -28,7 +28,13 @@ const LoginPage = () => {
     try {
       setLoading(true);
       const credential = await signInWithEmailAndPassword(auth, email.trim(), password);
-      await ensureUserProfile(credential.user);
+      
+      try {
+        await ensureUserProfile(credential.user);
+      } catch (dbErr) {
+        console.warn('Firestore profile sync failed:', dbErr);
+      }
+      
       if (remember) {
         localStorage.setItem('veda-auth-remember', '1');
       } else {
@@ -53,7 +59,13 @@ const LoginPage = () => {
     try {
       setGoogleLoading(true);
       const credential = await signInWithPopup(auth, googleProvider);
-      await ensureUserProfile(credential.user);
+      
+      try {
+        await ensureUserProfile(credential.user);
+      } catch (dbErr) {
+        console.warn('Firestore profile sync failed, continuing to dashboard:', dbErr);
+      }
+      
       navigate('/dashboard');
     } catch (err) {
       console.error(err);
