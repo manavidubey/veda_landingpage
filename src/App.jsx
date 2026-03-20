@@ -98,6 +98,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard/:tab" element={<DashboardPage />} />
             <Route path="/employees/:slug" element={<EmployeeProfilePage />} />
           </Routes>
         </MotionConfig>

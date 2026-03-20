@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider, isFirebaseConfigured } from '../lib/firebase';
 import { getFirebaseAuthMessage } from '../lib/firebaseError';
+import { ensureUserProfile } from '../lib/userStore';
 import './Auth.css';
 
 const LoginPage = () => {
@@ -26,7 +27,8 @@ const LoginPage = () => {
 
     try {
       setLoading(true);
-      await signInWithEmailAndPassword(auth, email.trim(), password);
+      const credential = await signInWithEmailAndPassword(auth, email.trim(), password);
+      await ensureUserProfile(credential.user);
       if (remember) {
         localStorage.setItem('veda-auth-remember', '1');
       } else {
@@ -50,7 +52,8 @@ const LoginPage = () => {
 
     try {
       setGoogleLoading(true);
-      await signInWithPopup(auth, googleProvider);
+      const credential = await signInWithPopup(auth, googleProvider);
+      await ensureUserProfile(credential.user);
       navigate('/dashboard');
     } catch (err) {
       if (err?.code === 'auth/popup-closed-by-user') return;

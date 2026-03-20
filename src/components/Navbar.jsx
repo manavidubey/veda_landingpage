@@ -122,7 +122,7 @@ const Navbar = () => {
                   exit={{ opacity: 0, y: -8 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Link to="/dashboard#profile" onClick={() => setProfileMenuOpen(false)}>Manage my profile</Link>
+                  <Link to="/dashboard/profile" onClick={() => setProfileMenuOpen(false)}>Manage my profile</Link>
                   <Link to="/dashboard" onClick={() => setProfileMenuOpen(false)}>Dashboard</Link>
                   <button type="button" onClick={handleLogout}>Log out</button>
                 </motion.div>
@@ -176,7 +176,7 @@ const Navbar = () => {
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Link to="/dashboard#profile" onClick={() => { setProfileMenuOpen(false); setMobileOpen(false); }}>Manage my profile</Link>
+                      <Link to="/dashboard/profile" onClick={() => { setProfileMenuOpen(false); setMobileOpen(false); }}>Manage my profile</Link>
                       <Link to="/dashboard" onClick={() => { setProfileMenuOpen(false); setMobileOpen(false); }}>Dashboard</Link>
                       <button type="button" onClick={handleLogout}>Log out</button>
                     </motion.div>

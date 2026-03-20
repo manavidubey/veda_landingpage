@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
 import { auth, googleProvider, isFirebaseConfigured } from '../lib/firebase';
 import { getFirebaseAuthMessage } from '../lib/firebaseError';
+import { ensureUserProfile } from '../lib/userStore';
 import './Auth.css';
 
 const SignupPage = () => {
@@ -42,6 +43,7 @@ const SignupPage = () => {
       if (fullName.trim()) {
         await updateProfile(credential.user, { displayName: fullName.trim() });
       }
+      await ensureUserProfile(credential.user, { fullName: fullName.trim(), email: email.trim() });
       navigate('/dashboard');
     } catch (err) {
       setError(getFirebaseAuthMessage(err.code));
@@ -60,7 +62,8 @@ const SignupPage = () => {
 
     try {
       setGoogleLoading(true);
-      await signInWithPopup(auth, googleProvider);
+      const credential = await signInWithPopup(auth, googleProvider);
+      await ensureUserProfile(credential.user);
       navigate('/dashboard');
     } catch (err) {
       if (err?.code === 'auth/popup-closed-by-user') return;
