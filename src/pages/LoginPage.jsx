@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
@@ -56,8 +56,9 @@ const LoginPage = () => {
       await ensureUserProfile(credential.user);
       navigate('/dashboard');
     } catch (err) {
+      console.error(err);
       if (err?.code === 'auth/popup-closed-by-user') return;
-      setError(getFirebaseAuthMessage(err.code));
+      setError(err.message || 'Error logging in with Google');
     } finally {
       setGoogleLoading(false);
     }
